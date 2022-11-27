@@ -1,0 +1,61 @@
+{
+  "name": "tracker-lambda",
+  "version": "1.1.0",
+  "description": "Tracking lambdas to monitor user visits & activity",
+  "main": "serverless.ts",
+  "scripts": {
+    "clean": "rimraf .esbuild .serverless .nyc_output coverage",
+    "buildTest": "serverless package --stage test",
+    "buildProd": "serverless package --stage prod",
+    "cleanBuildTest": "yarn clean && yarn buildTest",
+    "cleanBuildProd": "yarn clean && yarn buildProd",
+    "pm2start": "pm2 start",
+    "pm2kill": "pm2 kill",
+    "logs": "pm2 logs",
+    "pretest": "yarn cleanBuildTest && pm2 start",
+    "test": "yarn integTest || echo \"Finished Test\"",
+    "posttest": "yarn pm2kill",
+    "integTest": "jest",
+    "preIntegTest": "SLS_DEBUG=* serverless offline start --verbose --stage test",
+    "deploy": "yarn cleanBuildProd && SLS_DEBUG=* serverless deploy --verbose --stage prod",
+    "remove": "SLS_DEBUG=* serverless remove --verbose --stage prod"
+  },
+  "engines": {
+    "node": ">=14.15.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "3.159.0",
+    "@aws-sdk/lib-dynamodb": "3.159.0",
+    "@middy/core": "2.5.3",
+    "@middy/http-cors": "2.5.3",
+    "@middy/http-json-body-parser": "2.5.3",
+    "validate.js": "0.13.1"
+  },
+  "devDependencies": {
+    "@babel/core": "7.20.5",
+    "@babel/preset-env": "7.16.4",
+    "@babel/preset-typescript": "7.16.0",
+    "@serverless/typescript": "3.21.0",
+    "@types/aws-lambda": "8.10.71",
+    "@types/jest": "27.0.2",
+    "@types/node": "14.14.25",
+    "axios": "0.27.2",
+    "babel-jest": "27.3.1",
+    "esbuild": "0.14.11",
+    "jest": "27.3.1",
+    "json-schema-to-ts": "1.5.0",
+    "light-async-polling": "1.0.2",
+    "pm2": "5.2.0",
+    "rimraf": "3.0.2",
+    "serverless": "3.21.0",
+    "serverless-dynamodb-local": "0.2.40",
+    "serverless-esbuild": "1.23.3",
+    "serverless-offline": "8.5.0",
+    "ts-node": "9.1.1",
+    "tsconfig-paths": "3.9.0",
+    "typescript": "4.1.3",
+    "uuid": "8.3.2"
+  },
+  "author": "Joel Mouritz",
+  "license": "MIT"
+}

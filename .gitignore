@@ -1,0 +1,27 @@
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+
+# esbuild directories
+.esbuild
+
+# IDE
+.idea
+
+# Yarn
+yarn-error.log
+
+# Dynamodb
+.dynamodb
+
+# Tests
+coverage
+
+# env files
+.env
+.env.test
+.env.prod
+.env.dev
